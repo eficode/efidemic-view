@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  db-dev:
+    image: postgres:10-alpine
+    tty: true
+    environment:
+      POSTGRES_DB: efidemic_view_db
+      POSTGRES_USER: efidemic
+      POSTGRES_PASSWORD: efidemic
+    ports:
+      - 5432:5432
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+
+  backend-dev:
+    build: backend
+    command: npm run dev
+    tty: true
+    environment:
+      NODE_ENV: "development"
+      FRONTEND_URL: http://localhost:8000
+    volumes:
+      - ./backend/src/:/usr/src/app/src/
+    ports:
+      - 9000:9000
+      - 9229:9229
+    restart: on-failure
+    depends_on:
+      - db-dev
+
+  frontend-dev:
+    build: frontend
+    tty: true
+    environment:
+      NODE_ENV: "development"
+      BACKEND_URL: http://localhost:9000/api/v1
+    volumes:
+      - ./frontend/src:/usr/src/app/src
+    ports:
+      - 8000:8000
+
+volumes:
+  dbdata:
