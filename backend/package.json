@@ -1,0 +1,56 @@
+{
+  "name": "efidemic-view-backend",
+  "description": "Efidemic View - Infection monitoring",
+  "author": "Eficode Oy",
+  "license": "MIT",
+  "private": true,
+  "keywords": [
+    "corona",
+    "infection"
+  ],
+  "main": "src",
+  "directories": {
+    "lib": "src",
+    "test": "test/",
+    "config": "config/"
+  },
+  "engines": {
+    "node": "^13.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "scripts": {
+    "test": "npm run lint && npm run jest",
+    "lint": "eslint src/. test/. --config .eslintrc.json",
+    "dev": "nodemon src/",
+    "start": "node src/",
+    "jest": "jest  --forceExit"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ],
+    "ignore": []
+  },
+  "dependencies": {
+    "@feathersjs/configuration": "^4.5.2",
+    "@feathersjs/errors": "^4.5.2",
+    "@feathersjs/express": "^4.5.2",
+    "@feathersjs/feathers": "^4.5.2",
+    "@feathersjs/transport-commons": "^4.5.2",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "feathers-objection": "^5.2.0",
+    "helmet": "^3.21.3",
+    "knex": "^0.20.13",
+    "objection": "^2.1.3",
+    "pg": "^7.18.2",
+    "serve-favicon": "^2.5.0",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "axios": "^0.19.2",
+    "eslint": "^6.8.0",
+    "jest": "^25.1.0",
+    "nodemon": "^2.0.2"
+  }
+}
