@@ -11,10 +11,18 @@ class infections extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['text'],
+      required: ['postal_code'],
 
       properties: {
-        text: { type: 'string' }
+        postal_code: { type: 'string' },
+        confirmed: {
+          type: 'boolean',
+          default: false
+        },
+        has_symptoms: {
+          type: 'boolean',
+          default: false
+        },
       }
     };
   }
@@ -35,7 +43,9 @@ module.exports = function (app) {
     if (!exists) {
       db.schema.createTable('infections', table => {
         table.increments('id');
-        table.string('text');
+        table.string('postal_code');
+        table.boolean('confirmed');
+        table.boolean('has_symptoms');
         table.timestamp('createdAt');
         table.timestamp('updatedAt');
       })
