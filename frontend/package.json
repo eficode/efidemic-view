@@ -19,8 +19,10 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "immutable": "^3.8.2",
+    "leaflet": "^1.6.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-leaflet": "^2.6.3",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5"
   },
