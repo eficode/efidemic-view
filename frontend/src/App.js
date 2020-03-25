@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
+import LMap from './map';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,9 +23,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function App() {
-  document.title = 'Efidemic';
+  document.title = 'Efidemic';  
   return (
     <div className="App">
+      <LMap />
       <SymptomForm />
     </div>
   );  
@@ -43,6 +45,7 @@ function SymptomForm() {
     justifyContent="center"
     border={1}
     borderRadius="borderRadius">
+      
       <h1>
         Efidemic
       </h1>
