@@ -5,5 +5,14 @@
   "paginate": {
     "default": 10,
     "max": 50
+  },
+  "postgres": {
+    "client": "pg",
+    "connection": {
+      "host": "db-dev",
+      "user": "efidemic",
+      "password": "efidemic",
+      "database": "efidemic_view_db"
+    }
   }
 }
