@@ -22,6 +22,7 @@ services:
       FRONTEND_URL: http://localhost:8000
     volumes:
       - ./backend/src/:/usr/src/app/src/
+      - ./backend/config/:/usr/src/app/config/
     ports:
       - 9000:9000
       - 9229:9229

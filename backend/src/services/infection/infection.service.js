@@ -1,7 +1,7 @@
 // Initializes the `infection` service on path `/infections`
 const { Infection } = require('./infection.class');
 const createModel = require('../../models/infection.model');
-const hooks = require('./infections.hooks');
+const hooks = require('./infection.hooks');
 
 module.exports = function (app) {
   const options = {

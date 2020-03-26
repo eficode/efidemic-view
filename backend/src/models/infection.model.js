@@ -1,8 +1,9 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 const { Model } = require('objection');
+const { Symptom } = require('./symptom.model');
 
-class infections extends Model {
+class infection extends Model {
 
   static get tableName() {
     return 'infections';
@@ -11,10 +12,31 @@ class infections extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['text'],
+      required: ['postal_code'],
 
       properties: {
-        text: { type: 'string' }
+        postal_code: { type: 'string' },
+        confirmed: {
+          type: 'boolean',
+          default: false
+        },
+        has_symptoms: {
+          type: 'boolean',
+          default: false
+        },
+      }
+    };
+  }
+
+  static get relationMappings() {
+    return {
+      symptoms: {
+        relation: Model.HasManyRelation,
+        modelClass: Symptom,
+        join: {
+          from: 'infections.id',
+          to: 'symptoms.infectionId'
+        }
       }
     };
   }
@@ -35,7 +57,9 @@ module.exports = function (app) {
     if (!exists) {
       db.schema.createTable('infections', table => {
         table.increments('id');
-        table.string('text');
+        table.string('postal_code');
+        table.boolean('confirmed');
+        table.boolean('has_symptoms');
         table.timestamp('createdAt');
         table.timestamp('updatedAt');
       })
@@ -45,5 +69,5 @@ module.exports = function (app) {
   })
     .catch(e => console.error('Error creating infections table', e)); // eslint-disable-line no-console
 
-  return infections;
+  return infection;
 };

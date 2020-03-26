@@ -9,7 +9,11 @@ import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
+<<<<<<< HEAD
 import Paper from '@material-ui/core/Paper';
+=======
+import LMap from './map';
+>>>>>>> 71d3f274dd17a39e43f9bde47285a37755b484fa
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,9 +27,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function App() {
-  document.title = 'Efidemic';
+  document.title = 'Efidemic';  
   return (
     <div className="App">
+      <LMap />
       <SymptomForm />
     </div>
   );  
@@ -41,7 +46,14 @@ function SymptomForm() {
     margin="auto"
     padding="100"
     alignItems="center"
+<<<<<<< HEAD
     justifyContent="center">
+=======
+    justifyContent="center"
+    border={1}
+    borderRadius="borderRadius">
+      
+>>>>>>> 71d3f274dd17a39e43f9bde47285a37755b484fa
       <h1>
         Efidemic
       </h1>

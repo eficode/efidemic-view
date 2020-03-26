@@ -8,13 +8,13 @@ const logger = require('./logger');
 const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
 const express = require('@feathersjs/express');
-
-
+const swagger = require('feathers-swagger');
 
 const middleware = require('./middleware');
 const services = require('./services');
 const appHooks = require('./app.hooks');
-const channels = require('./channels');
+
+const objection = require('./objection');
 
 const app = express(feathers());
 
@@ -32,14 +32,22 @@ app.use('/', express.static(app.get('public')));
 
 // Set up Plugins and providers
 app.configure(express.rest());
-
-
+// Set up swagger
+app.configure(swagger({
+  docsPath: '/docs',
+  specs: {
+    info: {
+      title: 'Efidemic View API',
+      description: 'Efidemic View - Infection monitoring',
+      version: '1.0.0',
+    },
+  }
+}));
+app.configure(objection);
 // Configure other middleware (see `middleware/index.js`)
 app.configure(middleware);
 // Set up our services (see `services/index.js`)
 app.configure(services);
-// Set up event channels (see channels.js)
-app.configure(channels);
 
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());
