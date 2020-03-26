@@ -44,9 +44,7 @@ function SymptomForm() {
     padding="100"
     alignItems="center"
     justifyContent="center"
-    border={1}
-    borderRadius="borderRadius">
-      
+    >     
       <h1>
         Efidemic
       </h1>
@@ -112,7 +110,7 @@ function Symptoms() {
     </li>
   )
   return(
-    <Paper className={classes.root}>
+    <div className={classes.root}>
       {
         Object.entries(chipData).map((key) => {
           return(
@@ -134,7 +132,7 @@ function Symptoms() {
         <h3>Valitsemasi oireet:</h3>
           <ul>{oireLista}</ul>
       </div>
-    </Paper>
+    </div>
   )
 }
 export default App;
