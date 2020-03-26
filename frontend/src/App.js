@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'typeface-roboto';
 import './App.css';
-import oirekuva from './THL-oireet.png';
+//import oirekuva from './THL-oireet.png'; THL:n kuva korona-oireista. Ei käytössä.
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,9 +41,7 @@ function SymptomForm() {
     margin="auto"
     padding="100"
     alignItems="center"
-    justifyContent="center"
-    border={1}
-    borderRadius="borderRadius">
+    justifyContent="center">
       <h1>
         Efidemic
       </h1>
@@ -87,58 +86,50 @@ function SymptomForm() {
 function Symptoms() {
   const classes = useStyles();
   const [oireet, setOireet] = useState([]);
-  const handleClick = () => {
-    setOireet();
+  const [chipData, setChipData] = useState({
+    "Päänsärky": { key: 0, label: 'Päänsärky' , clicked: false},
+    "Yskä": { key: 1, label: 'Yskä' , clicked: false},
+    "Kurkkukipu": { key: 2, label: 'Kurkkukipu' , clicked: false},
+    "Hengenahdistus": { key: 3, label: 'Hengenahdistus' , clicked: false},
+    "Lihaskivut": { key: 4, label: 'Lihaskivut' , clicked: false},
+    "Kuume": { key: 5, label: 'Kuume' , clicked: false}
+  });
+  function handleClick(key, oire) {
+    var isClicked = key[1].clicked;
+    setChipData({
+      ...chipData, [oire]: { ...chipData[oire], clicked: !isClicked}
+    })
+    setOireet(oireet.concat(oire));
   }
+  const oireLista = oireet.map((oire) => 
+    <li key={oire.toString()}>
+      {oire}
+    </li>
+  )
   return(
-    <div className={classes.root}>
-      <Chip 
-        clickable
-        color="secondary" 
-        label="Päänsärky" 
-        onClick={handleClick} 
-      />
-      <Chip 
-        clickable
-        color="secondary" 
-        label="Yskä" 
-        onClick={handleClick} 
-      />
-      <Chip 
-        clickable
-        color="secondary" 
-        label="Kurkkukipu" 
-        onClick={handleClick} 
-      />
-      <Chip 
-        clickable
-        color="secondary" 
-        label="Hengenahdistus" 
-        onClick={handleClick} 
-      />
-      <Chip 
-        clickable
-        color="secondary" 
-        label="Lihaskivut" 
-        onClick={handleClick} 
-      />
-      <Chip 
-        clickable
-        color="secondary" 
-        label="Kuume" 
-        onClick={handleClick} 
-      />
-      <br/>
+    <Paper className={classes.root}>
+      {
+        Object.entries(chipData).map((key) => {
+          return(
+            <Chip
+            color="secondary" 
+            key={key[1].key}
+            label={key[0]}
+            disabled={key[1].clicked}
+            onClick={() => {
+              handleClick(key, key[0])
+            }} 
+            className={classes.chip}
+          />
+          )
+        })
+      }
+      <hr/>
       <div>
         <h3>Valitsemasi oireet:</h3>
-        {
-          oireet.map((oire) =>
-          <li>{oire}</li>
-          )
-        }
+          <ul>{oireLista}</ul>
       </div>
-    </div>
+    </Paper>
   )
 }
-
-export default App; 
+export default App;
