@@ -6,9 +6,13 @@ class LMap extends React.Component {
   constructor() {
     super()
     this.state = {
-      // Finland location (default)
-      lat: 63.2467777,
-      lng: 25.9209164,
+      locations: [
+        {
+          // Finland location (default)
+          lat: 63.2467777,
+          lng: 25.9209164,
+        },
+      ],
       zoom: 6
     }
   }
