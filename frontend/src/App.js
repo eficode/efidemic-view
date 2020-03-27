@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'typeface-roboto';
 import './App.css';
 //import oirekuva from './THL-oireet.png'; THL:n kuva korona-oireista. Ei käytössä.
+import efilogo from './eficode_logo_black.svg';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
@@ -35,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   },
   footer: {
     padding: theme.spacing(3, 2),
-    marginTop: 'auto',
+    marginTop: '5vh',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
   },
@@ -71,7 +72,7 @@ function SymptomForm() {
         Tässä palvelussa voit ilmoittaa koronavirusoireistasi, ja nähdä miten virus leviää eri puolilla maata. 
         Vastausmäärän kasvaessa palvelu näyttää tartuntaa vastaavien oireiden esiintymisen kartalla.
       </h5>
-      <TextField label="Syötä postinumerosi"/>
+      <TextField label="Syötä postinumerosi" style={{margin: '2vh'}}/>
       <br/>
       <FormControlLabel control={
           <Checkbox onClick={() => setVarmistettu(!varmistettu)} value="primary" />
@@ -84,11 +85,7 @@ function SymptomForm() {
         }
           label="Epäilen, että minulla on koronavirustartunta (huom. lisävalinnat)"
         />
-      {onkoOireita ? <Symptoms/> : <React.Fragment/>}
-      <br/>
-      <a href="https://thl.fi/fi/web/infektiotaudit-ja-rokotukset/taudit-ja-torjunta/taudit-ja-taudinaiheuttajat-a-o/koronavirus-covid-19">
-        Lähteenä oireisiin THL:n COVID-19 - infosivu
-      </a>
+      <Symptoms/>
       <br/>
       <br/>
       <Button variant="contained" color="primary" >
@@ -105,10 +102,14 @@ function Footer() {
   const classes = useStyles();
   return (
     <footer className={classes.footer}>
+      <img src={efilogo} alt="Eficode logo" style={{width:'10vw', height:'10vh'}}/>
       <Container maxWidth="lg">
+        <a href="https://thl.fi/fi/web/infektiotaudit-ja-rokotukset/taudit-ja-torjunta/taudit-ja-taudinaiheuttajat-a-o/koronavirus-covid-19">
+          Lähteenä oireisiin THL:n COVID-19 - infosivu
+        </a>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
           Tällä sivustolla ei kerätä henkilötietolain tai EU lainsäädännön tarkoittamia yksilöiviä henkilötietoja. 
-          Eficoden yleisestä henkilötietojen käsittelystä voit lukea täältä: https://www.eficode.com/privacy-policy
+          Eficoden yleisestä henkilötietojen käsittelystä voit lukea <a href="https://www.eficode.com/privacy-policy">täältä.</a> 
         </Typography>
         <a href="https://eficode.com">Eficode2020</a>
       </Container>
