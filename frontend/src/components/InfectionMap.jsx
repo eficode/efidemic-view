@@ -1,8 +1,8 @@
 import React from 'react';
 import * as Nominatim from 'nominatim-browser';
-import { Map, TileLayer, CircleMarker, Popup }  from 'react-leaflet'
+import { Map, TileLayer, CircleMarker, Popup }  from 'react-leaflet';
 
-class LMap extends React.Component {
+class InfectionMap extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -33,7 +33,7 @@ class LMap extends React.Component {
     });
 }
 
-  render() { 
+  render() {
     const position = [this.state.lat, this.state.lng];
     var countryCenter = [63.2467777, 25.9209164] // Finland
     return (
@@ -52,10 +52,10 @@ class LMap extends React.Component {
           </Popup>
         </CircleMarker>
         ))}
-        
+
       </Map>
     );
   }
 }
 
-export default LMap;
+export default InfectionMap;
