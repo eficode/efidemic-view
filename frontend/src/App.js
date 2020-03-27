@@ -9,11 +9,19 @@ import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import LMap from './map';
+import DoneIcon from '@material-ui/icons/Done';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  },
+  chip: {
     display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap',
@@ -21,10 +29,21 @@ const useStyles = makeStyles(theme => ({
       margin: theme.spacing(0.5),
     },
   },
+  main: {
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(2),
+  },
+  footer: {
+    padding: theme.spacing(3, 2),
+    marginTop: 'auto',
+    backgroundColor:
+      theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
+  },
 }));
 
 function App() {
-  document.title = 'Efidemic';  
+  const classes = useStyles();
+  document.title = 'Tilannekartta.fi';
   return (
     <div className="App">
       <LMap />
@@ -46,31 +65,26 @@ function SymptomForm() {
     justifyContent="center"
     >     
       <h1>
-        Efidemic
+        Tilannekartta koronaviruksen oireiden alueellisesta esiintymisestä.
       </h1>
       <h5>
-        Eficoden datankeruu-sovellus koronavirus-epidemiaan
+        Tässä palvelussa voit ilmoittaa koronavirusoireistasi, ja nähdä miten virus leviää eri puolilla maata. 
+        Vastausmäärän kasvaessa palvelu näyttää tartuntaa vastaavien oireiden esiintymisen kartalla.
       </h5>
-      <h3>
-        Covid-19 alueellinen oirekartoitus
-      </h3>
       <TextField label="Syötä postinumerosi"/>
-      <p>
+      <br/>
       <FormControlLabel control={
           <Checkbox onClick={() => setVarmistettu(!varmistettu)} value="primary" />
         }
-          label="Varmistettu Covid-19 tartunta"
+          label="Minulla on varmistettu koronavirustartunta"
         />
+        <br/>
       <FormControlLabel control={
           <Checkbox onClick={() => setOnkoOireita(!onkoOireita)} value="primary" />
         }
-          label="Covid-19 täsmääviä oireita"
+          label="Epäilen, että minulla on koronavirustartunta (huom. lisävalinnat)"
         />
-      </p>
-      <h3>
-        Klikkaa alta niitä oireita, joita olet kokenut. Klikkaa lopuksi lähetä-painiketta.
-      </h3>
-      <Symptoms/>
+      {onkoOireita ? <Symptoms/> : <React.Fragment/>}
       <br/>
       <a href="https://thl.fi/fi/web/infektiotaudit-ja-rokotukset/taudit-ja-torjunta/taudit-ja-taudinaiheuttajat-a-o/koronavirus-covid-19">
         Lähteenä oireisiin THL:n COVID-19 - infosivu
@@ -81,9 +95,25 @@ function SymptomForm() {
         Lähetä
       </Button>
       <br/>
+      <Footer/>
       <br/>
     </Box>
   )
+}
+
+function Footer() {
+  const classes = useStyles();
+  return (
+    <footer className={classes.footer}>
+      <Container maxWidth="lg">
+        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+          Tällä sivustolla ei kerätä henkilötietolain tai EU lainsäädännön tarkoittamia yksilöiviä henkilötietoja. 
+          Eficoden yleisestä henkilötietojen käsittelystä voit lukea täältä: https://www.eficode.com/privacy-policy
+        </Typography>
+        <a href="https://eficode.com">Eficode2020</a>
+      </Container>
+    </footer>
+  );
 }
 
 function Symptoms() {
@@ -104,34 +134,35 @@ function Symptoms() {
     })
     setOireet(oireet.concat(oire));
   }
+  /*
+    Oirelistaan tallentuu, mitä oire-chippejä käyttäjä on klikannut. 
+    Listaa ei kuitenkaan näytetä käyttäjälle.
+  */
   const oireLista = oireet.map((oire) => 
     <li key={oire.toString()}>
       {oire}
     </li>
   )
   return(
-    <div className={classes.root}>
+    <div className={classes.chip}>
       {
         Object.entries(chipData).map((key) => {
           return(
             <Chip
+            clickable
+            variant="outlined"
             color="secondary" 
             key={key[1].key}
             label={key[0]}
-            disabled={key[1].clicked}
             onClick={() => {
               handleClick(key, key[0])
-            }} 
+            }}
             className={classes.chip}
+            icon={key[1].clicked ? <DoneIcon /> : <React.Fragment/>}
           />
           )
         })
       }
-      <hr/>
-      <div>
-        <h3>Valitsemasi oireet:</h3>
-          <ul>{oireLista}</ul>
-      </div>
     </div>
   )
 }
