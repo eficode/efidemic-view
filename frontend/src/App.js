@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import InfectionMap from './components/InfectionMap';
 import InfectionForm from './components/InfectionForm';
 import Footer from './components/Footer';
 import Api from './api/Api';
