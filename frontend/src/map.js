@@ -39,11 +39,11 @@ class LMap extends React.Component {
   render() {
     var countryCenter = [{lat: "63.2467777", lng: "25.9209164"}] // Finland
     var position = countryCenter;
-    
+
     if (this.state.locations.length > 0) {
       position = this.state.locations;
     }
-    
+
     return (
       <Map center={[countryCenter[0].lat, countryCenter[0].lng]} zoom={this.state.zoom}>
         <TileLayer
@@ -51,18 +51,18 @@ class LMap extends React.Component {
           url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
         />
         {position.map((location, key) => (
-          <CircleMarker 
+          <CircleMarker
           key={key}
           center={[
             location.lat,
             location.lng
           ]} radius='10' color='yellow'>
           <Popup>
-            Many sick here is...
+            Epäiltyjä / vahvistettuja tapauksia
           </Popup>
         </CircleMarker>
         ))}
-        
+
       </Map>
     );
   }
