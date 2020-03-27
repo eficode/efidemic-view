@@ -1,55 +1,61 @@
 import React from 'react';
 import * as Nominatim from 'nominatim-browser';
-import { Map, TileLayer, CircleMarker, Popup }  from 'react-leaflet'
+import { Map, TileLayer, CircleMarker, Popup }  from 'react-leaflet';
+import symData from './data.json';
 
 class LMap extends React.Component {
   constructor() {
     super()
     this.state = {
-      locations: [
-        {
-          // Finland location (default)
-          lat: 63.2467777,
-          lng: 25.9209164,
-        },
-      ],
+      locations: [],
       zoom: 6
     }
   }
 
   componentDidMount() {
-    Nominatim.geocode({
-      q: "33450 Finland",
-      addressdetails: true
-    })
-    .then((results) =>
-    {
-      var result = results[0];
-      this.setState({ lat: result.lat, lng: result.lon })
-      // console.log(result.lat);
-      // console.log(result.lon);
-      // console.log(result.display_name);
-
-    })
-    .catch((error) =>
-    {
+    symData.data.map(location => {
+      Nominatim.geocode({
+        q: location.postal_code + " Finland",
+        addressdetails: true
+      })
+      .then((results) =>
+      {
+        var result = results[0];
+        this.setState(state => {
+          const locations = state.locations.concat([{lat: result.lat, lng: result.lon}]);
+          return {
+            locations,
+            zoom: 6
+          }
+        });
+      })
+      .catch((error) =>
+      {
         console.error(error);
+      });
     });
-}
+  }
 
-  render() { 
-    const position = [this.state.lat, this.state.lng];
-    var countryCenter = [63.2467777, 25.9209164] // Finland
+  render() {
+    var countryCenter = [{lat: "63.2467777", lng: "25.9209164"}] // Finland
+    var position = countryCenter;
+    
+    if (this.state.locations.length > 0) {
+      position = this.state.locations;
+    }
+    
     return (
-      <Map center={countryCenter} zoom={this.state.zoom}>
+      <Map center={[countryCenter[0].lat, countryCenter[0].lng]} zoom={this.state.zoom}>
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
         />
-        {[position, countryCenter].map(location => (
-          <CircleMarker center={[
-            location[0],
-            location[1]
+        {position.map((location, key) => (
+          <CircleMarker 
+          key={key}
+          center={[
+            location.lat,
+            location.lng
           ]} radius='10' color='yellow'>
           <Popup>
             Many sick here is...
