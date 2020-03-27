@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   },
   footer: {
     padding: theme.spacing(3, 2),
-    marginTop: '5vh',
+    marginTop: '10vh',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
   },
@@ -102,7 +102,6 @@ function Footer() {
   const classes = useStyles();
   return (
     <footer className={classes.footer}>
-      <img src={efilogo} alt="Eficode logo" style={{width:'10vw', height:'10vh'}}/>
       <Container maxWidth="lg">
         <a href="https://thl.fi/fi/web/infektiotaudit-ja-rokotukset/taudit-ja-torjunta/taudit-ja-taudinaiheuttajat-a-o/koronavirus-covid-19">
           Lähteenä oireisiin THL:n COVID-19 - infosivu
@@ -111,8 +110,10 @@ function Footer() {
           Tällä sivustolla ei kerätä henkilötietolain tai EU lainsäädännön tarkoittamia yksilöiviä henkilötietoja. 
           Eficoden yleisestä henkilötietojen käsittelystä voit lukea <a href="https://www.eficode.com/privacy-policy">täältä.</a> 
         </Typography>
-        <a href="https://eficode.com">Eficode2020</a>
+        <a href="https://eficode.com">Eficode 2020</a>
       </Container>
+      <br/>
+      <img src={efilogo} alt="Eficode logo" style={{width:'5vw', height:'5vh'}}/>
     </footer>
   );
 }
