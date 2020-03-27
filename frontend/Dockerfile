@@ -5,7 +5,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY package.json package-lock.json /usr/src/app/
+COPY package.json npm-shrinkwrap.json /usr/src/app/
 RUN apk add --no-cache --virtual .gyp python make g++ \
     && npm ci \
     && apk del .gyp
