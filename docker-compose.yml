@@ -11,6 +11,8 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    networks:
+      - frontend
 
   certbot:
     image: certbot/certbot
@@ -18,6 +20,8 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    networks:
+      - frontend
 
   db-dev:
     image: postgres:10-alpine
@@ -27,9 +31,11 @@ services:
       POSTGRES_USER: efidemic
       POSTGRES_PASSWORD: efidemic
     ports:
-      - 5432:5432
+      - 5432
     volumes:
       - dbdata:/var/lib/postgresql/data
+    networks:
+      - backend
 
   backend-dev:
     build: backend
@@ -42,11 +48,14 @@ services:
       - ./backend/src/:/usr/src/app/src/
       - ./backend/config/:/usr/src/app/config/
     ports:
-      - 9000:9000
-      - 9229:9229
+      - 9000
+      - 9229
     restart: on-failure
     depends_on:
       - db-dev
+    networks:
+      - frontend
+      - backend
 
   frontend-dev:
     build: frontend
@@ -58,6 +67,12 @@ services:
       - ./frontend/src:/usr/src/app/src
     ports:
       - 8000:8000
+    networks:
+      - frontend
 
 volumes:
   dbdata:
+
+networks: 
+  frontend:
+  backend:
