@@ -6,13 +6,19 @@ import {
   Box,
   FormControlLabel,
 } from '@material-ui/core';
+import SymptomSelect from './SymptomSelect';
+import { toast } from 'react-toastify';
 
 class InfectionForm extends React.Component {
-  state = {
-    postal_code: undefined,
-    confirmed: false,
-    has_symptoms: false,
-    symptoms: []
+  constructor(props) {
+    super(props);
+    this.state = {
+      postal_code: undefined,
+      confirmed: false,
+      has_symptoms: false,
+      selectedSymptoms: new Set(),
+    }
+    this.handleSelectedSymptoms = this.handleSelectedSymptoms.bind(this);
   }
 
   componentDidMount () {
@@ -32,17 +38,34 @@ class InfectionForm extends React.Component {
     this.setState(prevState => ({ has_symptoms: !prevState.has_symptoms }));
   }
 
+  handleSelectedSymptoms(symptom) {
+    let { selectedSymptoms } = this.state;
+    if(selectedSymptoms.has(symptom.key)) {
+      selectedSymptoms.delete(symptom.key);
+    } else {
+      selectedSymptoms.add(symptom.key);
+    }
+    this.setState({ selectedSymptoms });
+  }
+
   sendInfection() {
     const { api } = this.props;
-    let data = this.state;
-    data.symptoms = [1,2];
+    const { postal_code, confirmed, has_symptoms, selectedSymptoms } = this.state;
+    const data = {
+      postal_code,
+      confirmed,
+      has_symptoms,
+      symptoms: Array.from(selectedSymptoms)
+    }
     api.post('/infections', data).then(response => {
-      console.log(response);
+      toast.success('Kiitos! Ilmoitus lähetetty onnistuneesti.');
     });
   }
 
   render () {
-    console.log(this.state);
+    const { classes, symptoms } = this.props;
+    const { selectedSymptoms } = this.state;
+
     return(
       <Box
       width="50%"
@@ -52,34 +75,33 @@ class InfectionForm extends React.Component {
       justifyContent="center"
       >
         <h1>
-          Efidemic
+          Tilannekartta koronaviruksen oireiden alueellisesta esiintymisestä.
         </h1>
         <h5>
-          Eficoden datankeruu-sovellus koronavirus-epidemiaan
+          Tässä palvelussa voit ilmoittaa koronavirusoireistasi, ja nähdä miten virus leviää eri puolilla maata.
+          Vastausmäärän kasvaessa palvelu näyttää tartuntaa vastaavien oireiden esiintymisen kartalla.
         </h5>
         <h3>
           Covid-19 alueellinen oirekartoitus
         </h3>
-        <TextField label="Syötä postinumerosi" onChange={(event) => this.setPostalCode(event.target.value)} />
+        <TextField
+          label="Syötä postinumerosi"
+          style={{margin: '2vh'}}
+          onChange={(event) => this.setPostalCode(event.target.value)}
+        />
         <p>
         <FormControlLabel control={
             <Checkbox onClick={() => this.toggleConfirmed()} value="primary" />
           }
-            label="Varmistettu Covid-19 tartunta"
+            label="Minulla on varmistettu koronavirustartunta"
           />
         <FormControlLabel control={
             <Checkbox onClick={() => this.toggleHasSymptoms()} value="primary" />
           }
-            label="Covid-19 täsmääviä oireita"
+            label="Epäilen, että minulla on koronavirustartunta (huom. lisävalinnat)"
           />
         </p>
-        <h3>
-          Klikkaa alta niitä oireita, joita olet kokenut. Klikkaa lopuksi lähetä-painiketta.
-        </h3>
-        <br/>
-        <a href="https://thl.fi/fi/web/infektiotaudit-ja-rokotukset/taudit-ja-torjunta/taudit-ja-taudinaiheuttajat-a-o/koronavirus-covid-19">
-          Lähteenä oireisiin THL:n COVID-19 - infosivu
-        </a>
+        <SymptomSelect classes={classes} symptoms={symptoms} selectedSymptoms={selectedSymptoms} handleSelectedSymptoms={this.handleSelectedSymptoms} />
         <br/>
         <br/>
         <Button variant="contained" color="primary" onClick={() => this.sendInfection()} >
