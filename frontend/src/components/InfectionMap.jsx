@@ -44,7 +44,6 @@ class InfectionMap extends React.Component {
       position = this.state.locations;
     }
 
-  render() {
     return (
       <Map center={[countryCenter[0].lat, countryCenter[0].lng]} zoom={this.state.zoom}>
         <TileLayer

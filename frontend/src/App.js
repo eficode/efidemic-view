@@ -66,7 +66,6 @@ class App extends React.Component {
     const { api, infections, symptoms } = this.state;
     return (
       <div className="App">
-        <InfectionMap infections={infections} />
         <InfectionForm api={api} classes={classes} symptoms={symptoms} />
         <Footer classes={classes} />
         <ToastContainer />
