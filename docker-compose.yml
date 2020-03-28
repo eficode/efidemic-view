@@ -43,7 +43,7 @@ services:
     tty: true
     environment:
       NODE_ENV: "development"
-      FRONTEND_URL: http://localhost:8000
+      FRONTEND_URL: http://frontend-dev:8000
     volumes:
       - ./backend/src/:/usr/src/app/src/
       - ./backend/config/:/usr/src/app/config/
@@ -62,7 +62,7 @@ services:
     tty: true
     environment:
       NODE_ENV: "development"
-      BACKEND_URL: http://localhost:9000/api/v1
+      BACKEND_URL: http://backend-dev:9000/api/v1
     volumes:
       - ./frontend/src:/usr/src/app/src
     ports:
