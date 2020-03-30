@@ -1,11 +1,10 @@
 import React from 'react';
 import * as Nominatim from 'nominatim-browser';
 import { Map, TileLayer, CircleMarker, Popup }  from 'react-leaflet';
-import symData from './data.json';
 
 class InfectionMap extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       locations: [],
       zoom: 6
@@ -13,16 +12,23 @@ class InfectionMap extends React.Component {
   }
 
   componentDidMount() {
-    symData.data.map(location => {
+    const { counter } = this.props;
+    var infections = [];
+    for (var i in counter) {
+      infections.push([i, counter[i]])
+    };
+
+    infections.map(location => {
       Nominatim.geocode({
-        q: location.postal_code + " Finland",
+        q: location[0] + " Finland",
         addressdetails: true
       })
       .then((results) =>
       {
         var result = results[0];
+        
         this.setState(state => {
-          const locations = state.locations.concat([{lat: result.lat, lng: result.lon}]);
+          const locations = state.locations.concat([{lat: result.lat, lng: result.lon, count: location[1]}]);
           return {
             locations,
             zoom: 6
@@ -40,12 +46,14 @@ class InfectionMap extends React.Component {
     var countryCenter = [{lat: "63.2467777", lng: "25.9209164"}] // Finland
     var position = countryCenter;
 
+    const radius = 5
+
     if (this.state.locations.length > 0) {
       position = this.state.locations;
     }
 
     return (
-      <Map center={[countryCenter[0].lat, countryCenter[0].lng]} zoom={this.state.zoom}>
+      <Map style={{width:"100%", height:"400px"}} center={[countryCenter[0].lat, countryCenter[0].lng]} zoom={this.state.zoom}>
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
@@ -56,9 +64,9 @@ class InfectionMap extends React.Component {
           center={[
             location.lat,
             location.lng
-          ]} radius='10' color='yellow'>
+          ]} radius={location.count > 0 && radius + location.count} color='red'>
           <Popup>
-            Epäiltyjä / vahvistettuja tapauksia
+            Epäiltyjä / vahvistettuja tapauksia: {location.count}
           </Popup>
         </CircleMarker>
         ))}
