@@ -95,13 +95,9 @@ class InfectionForm extends React.Component {
             label="Epäilen, että minulla on koronavirustartunta (huom. lisävalinnat)"
           />
         <SymptomSelect classes={classes} symptoms={symptoms} selectedSymptoms={selectedSymptoms} handleSelectedSymptoms={this.handleSelectedSymptoms} />
-        <br/>
-        <br/>
         <Button variant="contained" color="primary" onClick={() => this.sendInfection()} >
           Lähetä
         </Button>
-        <br/>
-        <br/>
       </Box>
     );
   }
