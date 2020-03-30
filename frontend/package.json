@@ -57,6 +57,7 @@
     "nominatim-browser": "^2.0.2",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.6.4",
+    "postal-codes-js": "^2.3.1",
     "postcss-flexbugs-fixes": "4.1.0",
     "postcss-loader": "3.0.0",
     "postcss-normalize": "8.0.1",

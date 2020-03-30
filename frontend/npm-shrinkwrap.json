@@ -10360,6 +10360,15 @@
       "resolved": "https://registry.npmjs.org/posix-character-classes/-/posix-character-classes-0.1.1.tgz",
       "integrity": "sha1-AerA/jta9xoqbAL+q7jB/vfgDqs="
     },
+    "postal-codes-js": {
+      "version": "2.3.1",
+      "resolved": "https://registry.npmjs.org/postal-codes-js/-/postal-codes-js-2.3.1.tgz",
+      "integrity": "sha512-Ze9InWoc8uoB/yQ1XnIWxL++rdcNEEiQB1b4ehnaU7vZkvW4WmYlPbI8LFoJnh5r1ch5GBn7u/JID7YuGAjFeQ==",
+      "requires": {
+        "detect-node": "^2.0.4",
+        "path": "^0.12.7"
+      }
+    },
     "postcss": {
       "version": "7.0.27",
       "resolved": "https://registry.npmjs.org/postcss/-/postcss-7.0.27.tgz",

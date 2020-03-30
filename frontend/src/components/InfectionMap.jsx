@@ -26,14 +26,15 @@ class InfectionMap extends React.Component {
       .then((results) =>
       {
         var result = results[0];
-        
-        this.setState(state => {
-          const locations = state.locations.concat([{lat: result.lat, lng: result.lon, count: location[1]}]);
-          return {
-            locations,
-            zoom: 6
-          }
-        });
+        if (result) {
+          this.setState(state => {
+            const locations = state.locations.concat([{lat: result.lat, lng: result.lon, count: location[1]}]);
+            return {
+              locations,
+              zoom: 6
+            }
+          });
+        }
       })
       .catch((error) =>
       {

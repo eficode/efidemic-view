@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import SymptomSelect from './SymptomSelect';
 import { toast } from 'react-toastify';
+import postalCodes from 'postal-codes-js';
 
 class InfectionForm extends React.Component {
   constructor(props) {
@@ -17,6 +18,8 @@ class InfectionForm extends React.Component {
       confirmed: false,
       has_symptoms: false,
       selectedSymptoms: new Set(),
+      postalCodeError: false,
+      postalCodeErrorMessage: '',
     }
     this.handleSelectedSymptoms = this.handleSelectedSymptoms.bind(this);
   }
@@ -26,8 +29,20 @@ class InfectionForm extends React.Component {
     this.setState({ symptoms });
   }
 
-  setPostalCode(postal_code) {
-    this.setState({ postal_code });
+  setPostalCode(target, postal_code) {
+    const validate = postalCodes.validate('fi', postal_code);
+    if (validate === true) {
+      this.setState({
+        postal_code,
+        postalCodeError: false,
+        postalCodeErrorMessage: '',
+      });
+    } else {
+      this.setState({
+        postalCodeError: true,
+        postalCodeErrorMessage: validate,
+      });
+    }
   }
 
   toggleConfirmed() {
@@ -50,22 +65,26 @@ class InfectionForm extends React.Component {
 
   sendInfection() {
     const { api } = this.props;
-    const { postal_code, confirmed, has_symptoms, selectedSymptoms } = this.state;
-    const data = {
-      postal_code,
-      confirmed,
-      has_symptoms,
-      symptoms: Array.from(selectedSymptoms)
+    const { postal_code, confirmed, has_symptoms, selectedSymptoms, postalCodeError } = this.state;
+    if (postalCodeError) {
+      toast.error('Postinumero on virheellinen.');
+    } else {
+      const data = {
+        postal_code,
+        confirmed,
+        has_symptoms,
+        symptoms: Array.from(selectedSymptoms)
+      }
+      api.post('/infections', data).then(response => {
+        console.log(response);
+        toast.success('Kiitos! Ilmoitus lähetetty onnistuneesti.');
+      });
     }
-    api.post('/infections', data).then(response => {
-      console.log(response);
-      toast.success('Kiitos! Ilmoitus lähetetty onnistuneesti.');
-    });
   }
 
   render () {
     const { classes, symptoms } = this.props;
-    const { selectedSymptoms } = this.state;
+    const { selectedSymptoms, postalCodeError, postalCodeErrorMessage } = this.state;
 
     return(
       <Box className={classes.root}>
@@ -82,7 +101,9 @@ class InfectionForm extends React.Component {
         <TextField
           label="Syötä postinumerosi"
           style={{margin: '2vh'}}
-          onChange={(event) => this.setPostalCode(event.target.value)}
+          onChange={(event) => this.setPostalCode(event.target, event.target.value)}
+          error={postalCodeError}
+          helperText={postalCodeErrorMessage}
         />
         <FormControlLabel control={
             <Checkbox onClick={() => this.toggleConfirmed()} value="primary" />
