@@ -58,6 +58,7 @@ class InfectionForm extends React.Component {
       symptoms: Array.from(selectedSymptoms)
     }
     api.post('/infections', data).then(response => {
+      console.log(response);
       toast.success('Kiitos! Ilmoitus lähetetty onnistuneesti.');
     });
   }

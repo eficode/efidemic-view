@@ -2,10 +2,7 @@
   "host": "localhost",
   "port": 9000,
   "public": "../public/",
-  "paginate": {
-    "default": 10,
-    "max": 50
-  },
+  "paginate": false,
   "postgres": {
     "client": "pg",
     "connection": {

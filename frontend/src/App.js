@@ -47,10 +47,10 @@ class App extends React.Component {
     const api = new Api();
     this.setState({ api });
     api.get('/infections').then(response => {
-      this.setState({ infections: response.data });
+      this.setState({ infections: response });
     });
     api.get('/symptoms').then(response => {
-      const symptoms = response.data;
+      const symptoms = response;
       const symptomList = symptoms.map(s => {
         const symptom = { key: s.id, label: s.name, clicked: false };
         return symptom;
