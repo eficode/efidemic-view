@@ -68,13 +68,7 @@ class InfectionForm extends React.Component {
     const { selectedSymptoms } = this.state;
 
     return(
-      <Box
-      width="50%"
-      margin="auto"
-      padding="100"
-      alignItems="center"
-      justifyContent="center"
-      >
+      <Box className={classes.root}>
         <h1>
           Tilannekartta koronaviruksen oireiden alueellisesta esiintymisestä.
         </h1>
@@ -90,7 +84,6 @@ class InfectionForm extends React.Component {
           style={{margin: '2vh'}}
           onChange={(event) => this.setPostalCode(event.target.value)}
         />
-        <p>
         <FormControlLabel control={
             <Checkbox onClick={() => this.toggleConfirmed()} value="primary" />
           }
@@ -101,7 +94,6 @@ class InfectionForm extends React.Component {
           }
             label="Epäilen, että minulla on koronavirustartunta (huom. lisävalinnat)"
           />
-        </p>
         <SymptomSelect classes={classes} symptoms={symptoms} selectedSymptoms={selectedSymptoms} handleSelectedSymptoms={this.handleSelectedSymptoms} />
         <br/>
         <br/>

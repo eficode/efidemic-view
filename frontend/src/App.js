@@ -1,36 +1,40 @@
 import React from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import InfectionForm from './components/InfectionForm';
 import Footer from './components/Footer';
 import Api from './api/Api';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-const styles = makeStyles(theme => ({
+const styles = theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100vh',
+    minHeight: '10vh',
+    alignItems: 'center',
+    justify: 'center',
+    margin: '4vh',
   },
   chip: {
     display: 'flex',
+    marginTop: '5vh',
+    marginBottom: '5vh',
     justifyContent: 'center',
     flexWrap: 'wrap',
     '& > *': {
-      margin: theme.spacing(0.5),
+      margin: theme.spacing(1),
     },
-  },
-  main: {
-    marginTop: theme.spacing(8),
-    marginBottom: theme.spacing(2),
   },
   footer: {
     padding: theme.spacing(3, 2),
     marginTop: '10vh',
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
   },
-}));
+});
 
 class App extends React.Component {
   constructor(props) {
