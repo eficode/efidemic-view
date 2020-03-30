@@ -19,7 +19,6 @@ class SymptomSelect extends React.Component {
               onClick={() => {
                 handleSelectedSymptoms(c[1]);
               }}
-              className={classes.chip}
               icon={selectedSymptoms.has(c[1].key) ? <DoneIcon /> : <React.Fragment/>}
             />
             )
