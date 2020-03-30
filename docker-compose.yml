@@ -41,6 +41,7 @@ services:
     volumes:
       - ./backend/src/:/usr/src/app/src/
       - ./backend/config/:/usr/src/app/config/
+
     ports:
       - 9000:9000
       - 9229:9229
@@ -52,8 +53,8 @@ services:
     build: frontend
     tty: true
     environment:
-      NODE_ENV: "development"
-      BACKEND_URL: http://localhost:9000/api/v1
+      NODE_ENV: "production"
+      BACKEND_URL: https://tilannekartta.fi
     volumes:
       - ./frontend/src:/usr/src/app/src
     ports:
