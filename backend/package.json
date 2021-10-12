@@ -43,7 +43,7 @@
     "feathers-swagger": "^1.1.1",
     "helmet": "^3.21.3",
     "knex": "^0.20.13",
-    "objection": "^2.1.3",
+    "objection": "^2.2.16",
     "pg": "^7.18.2",
     "serve-favicon": "^2.5.0",
     "winston": "^3.2.1"
